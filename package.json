@@ -1,0 +1,22 @@
+{
+  "name": "pig-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lavet13/pig-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lavet13/pig-game/issues"
+  },
+  "homepage": "https://github.com/lavet13/pig-game#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
