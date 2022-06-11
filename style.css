@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
+:root {
+  --color-primary: rgba(191, 46, 160, 0.5);
+  --color-secondary: rgba(117, 54, 130, .5);
+
+  --color-black: #444;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +23,8 @@ body {
   font-weight: 400;
   height: 100vh;
   color: #333;
-  background-image: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
+  background-image: linear-gradient(to top left, var(--color-secondary) 0%, var(--color-primary) 100%), url('2021-09-09_110703-04.jpg');
+  backdrop-filter: grayscale(1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,53 +32,69 @@ body {
 
 /* LAYOUT */
 main {
+  display: flex;
   position: relative;
+
   width: 100rem;
   height: 60rem;
+
   background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(200px);
+  backdrop-filter: blur(100px);
   filter: blur();
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.25);
   border-radius: 9px;
+
   overflow: hidden;
-  display: flex;
 }
 
 .player {
   flex: 50%;
-  padding: 9rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  padding: 9rem;
+
   transition: all 0.75s;
 }
 
 /* ELEMENTS */
 .name {
   position: relative;
-  font-size: 4rem;
+
+  margin-bottom: 1rem;
+
+  font-size: 3rem;
+  font-weight: 300;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: 1px;
   word-spacing: 2px;
-  font-weight: 300;
-  margin-bottom: 1rem;
+
 }
 
 .score {
-  font-size: 8rem;
+  font-size: 5rem;
   font-weight: 300;
-  color: #c7365f;
+  color: #000;
   margin-bottom: auto;
 }
 
 .player--active {
-  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(1000px);
 }
+
 .player--active .name {
+  font-size: 4rem;
   font-weight: 700;
+  color: #fff;
 }
+
 .player--active .score {
+  font-size: 8rem;
   font-weight: 400;
+  color: #fff;
 }
 
 .player--active .current {
@@ -78,10 +102,10 @@ main {
 }
 
 .current {
-  background-color: #c7365f;
+  background-color: rgba(255, 255, 255, 0.6);
   opacity: 0.8;
   border-radius: 9px;
-  color: #fff;
+  color: #000;
   width: 65%;
   padding: 2rem;
   text-align: center;
@@ -92,7 +116,7 @@ main {
   text-transform: uppercase;
   margin-bottom: 1rem;
   font-size: 1.7rem;
-  color: #ddd;
+  color: var(--color-black);
 }
 
 .current-score {
@@ -104,7 +128,7 @@ main {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  color: #444;
+  color: var(--color-black);
   background: none;
   border: none;
   font-family: inherit;
@@ -114,7 +138,6 @@ main {
   font-weight: 400;
   transition: all 0.2s;
 
-  background-color: white;
   background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
 
@@ -132,9 +155,11 @@ main {
 .btn--new {
   top: 4rem;
 }
+
 .btn--roll {
   top: 39.3rem;
 }
+
 .btn--hold {
   top: 46.1rem;
 }
