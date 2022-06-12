@@ -24,7 +24,6 @@ body {
   height: 100vh;
   color: #333;
   background-image: linear-gradient(to top left, var(--color-secondary) 0%, var(--color-primary) 100%), url('2021-09-09_110703-04.jpg');
-  backdrop-filter: grayscale(1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +38,7 @@ main {
   height: 60rem;
 
   background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(100px);
+  backdrop-filter: contrast(10);
   filter: blur();
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.25);
   border-radius: 9px;
@@ -53,6 +52,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  backdrop-filter: invert(1);
 
   padding: 9rem;
 
@@ -67,7 +67,7 @@ main {
 
   font-size: 3rem;
   font-weight: 300;
-  color: #000;
+  color: #fff;
   text-transform: uppercase;
   letter-spacing: 1px;
   word-spacing: 2px;
@@ -77,12 +77,12 @@ main {
 .score {
   font-size: 5rem;
   font-weight: 300;
-  color: #000;
+  color: #fff;
   margin-bottom: auto;
 }
 
 .player--active {
-  backdrop-filter: blur(1000px);
+  backdrop-filter: contrast(10);
 }
 
 .player--active .name {

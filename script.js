@@ -52,27 +52,39 @@ const getCurrentScoreElement = function () {
   return document.querySelector(`#current--${currentPlayer}`);
 };
 
-const switchPlayer = function (currentPlayer) {
-  return currentPlayer === 0 ? 1 : 0;
+const getCurrentPlayerElement = function () {
+  return document.querySelector(`.player--${currentPlayer}`);
+};
+
+const deleteActiveClassOfPlayer = function () {
+  getCurrentPlayerElement().classList.remove('player--active');
+  currentPlayer = currentPlayer !== 0 ? 0 : 1;
+  getCurrentPlayerElement().classList.add('player--active');
+};
+
+const switchPlayer = function () {
+  deleteActiveClassOfPlayer();
+
+  return currentPlayer;
 };
 
 const setNewDiceRoll = function () {
   diceRoll = Math.trunc(Math.random() * 6) + 1;
 };
 
-const isOne = function (diceRoll) {
+const isNotOne = function (diceRoll) {
   return diceRoll !== 1 ? true : false;
 };
 
 document.querySelector('.btn--roll').addEventListener('click', function (e) {
   e.preventDefault();
 
-  if (isOne(diceRoll)) {
+  if (isNotOne(diceRoll)) {
     chooseImage();
     addToCurrentScore();
   } else {
     clearCurrentScore();
-    currentPlayer = switchPlayer(currentPlayer);
+    currentPlayer = switchPlayer();
     chooseImage();
   }
 
@@ -83,5 +95,5 @@ document.querySelector('.btn--hold').addEventListener('click', function (e) {
   e.preventDefault();
 
   addToPlayerScore();
-  currentPlayer = switchPlayer(currentPlayer);
+  currentPlayer = switchPlayer();
 });
