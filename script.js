@@ -2,6 +2,7 @@
 
 let diceRoll = Math.trunc(Math.random() * 6) + 1;
 let prevImageDiceRoll = document.querySelector('.dice');
+prevImageDiceRoll.classList.add('hidden');
 let currentPlayer = 0;
 
 const chooseImage = function () {
@@ -38,13 +39,25 @@ const clearCurrentScore = function () {
 
 const addToPlayerScore = function () {
   let currentScore = getCurrentScoreElement(),
-    playerScore = getPlayerScoreElement();
+    playerScore = getCurrentPlayerScoreElement();
   playerScore.textContent =
     Number(playerScore.textContent) + Number(currentScore.textContent);
   currentScore.textContent = 0;
 };
 
-const getPlayerScoreElement = function () {
+const clearPlayersScore = function () {
+  getCurrentScoreElement().textContent = 0;
+  getCurrentPlayerScoreElement().textContent = 0;
+  getCurrentPlayerElement().classList.remove('player--winner');
+  currentPlayer = switchPlayer();
+  getCurrentScoreElement().textContent = 0;
+  getCurrentPlayerScoreElement().textContent = 0;
+  getCurrentPlayerElement().classList.remove('player--winner');
+  currentPlayer = 1;
+  deleteActiveClassOfPlayer();
+};
+
+const getCurrentPlayerScoreElement = function () {
   return document.querySelector(`#score--${currentPlayer}`);
 };
 
@@ -58,14 +71,12 @@ const getCurrentPlayerElement = function () {
 
 const deleteActiveClassOfPlayer = function () {
   getCurrentPlayerElement().classList.remove('player--active');
-  currentPlayer = currentPlayer !== 0 ? 0 : 1;
+  currentPlayer = switchPlayer();
   getCurrentPlayerElement().classList.add('player--active');
 };
 
 const switchPlayer = function () {
-  deleteActiveClassOfPlayer();
-
-  return currentPlayer;
+  return currentPlayer !== 0 ? 0 : 1;
 };
 
 const setNewDiceRoll = function () {
@@ -76,24 +87,49 @@ const isNotOne = function (diceRoll) {
   return diceRoll !== 1 ? true : false;
 };
 
+const isWin = function () {
+  return getCurrentPlayerScoreElement().textContent >= 100;
+};
+
 document.querySelector('.btn--roll').addEventListener('click', function (e) {
+  prevImageDiceRoll.classList.contains('hidden')
+    ? prevImageDiceRoll.classList.remove('hidden')
+    : 0;
   e.preventDefault();
-
-  if (isNotOne(diceRoll)) {
-    chooseImage();
-    addToCurrentScore();
-  } else {
-    clearCurrentScore();
-    currentPlayer = switchPlayer();
-    chooseImage();
+  if (!isWin()) {
+    if (isNotOne(diceRoll)) {
+      chooseImage();
+      addToCurrentScore();
+    } else {
+      clearCurrentScore();
+      deleteActiveClassOfPlayer();
+      chooseImage();
+    }
   }
-
   setNewDiceRoll();
 });
 
 document.querySelector('.btn--hold').addEventListener('click', function (e) {
   e.preventDefault();
+  prevImageDiceRoll.classList.contains('hidden')
+    ? prevImageDiceRoll.classList.remove('hidden')
+    : 0;
 
-  addToPlayerScore();
-  currentPlayer = switchPlayer();
+  if (!isWin()) {
+    addToPlayerScore();
+    if (!isWin()) {
+      deleteActiveClassOfPlayer();
+    } else {
+      getCurrentPlayerElement().classList.add('player--winner');
+    }
+  }
+});
+
+document.querySelector('.btn--new').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  clearPlayersScore();
+  prevImageDiceRoll.classList.contains('hidden')
+    ? 0
+    : prevImageDiceRoll.classList.add('hidden');
 });
