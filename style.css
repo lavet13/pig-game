@@ -114,6 +114,7 @@ main {
 
 .current {
   background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 3rem 3rem rgba(255, 255, 255, .25);
   opacity: 0.8;
   border-radius: 9px;
   color: #fff;
@@ -193,28 +194,28 @@ main {
   position: absolute;
   left: 50%;
   top: 16.5rem;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   height: 10rem;
   box-shadow: 0 4rem 5rem rgba(255, 255, 255, 0.7);
-  animation: fade-in 3s backwards;
+  animation: fade-in 1s backwards;
   opacity: 1;
   filter: invert(1);
 
-  transition: 3s all;
+  transition: 1s all;
 }
 
 @keyframes fade-in {
   from {
-    filter: blur(10px);
+    filter: blur(10px) invert(0);
   }
 
   to {
-    filter: blur(0);
+    filter: blur(0) invert(1);
   }
 }
 
 .player--winner {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(0, 0, 0, .7);
 }
 
 .player--winner .name {
@@ -223,7 +224,7 @@ main {
 
 .player--winner .score {
   font-weight: 700;
-  color: #c7365f;
+  color: #fff;
 }
 
 .player--winner .current {
@@ -232,15 +233,16 @@ main {
 
 .player--winner .current-label {
   font-weight: 700;
-  color: #c7365f;
+  color: #fff;
 }
 
 .player--winner .current-score {
   font-weight: 700;
-  color: #c7365f;
+  color: #fff;
 }
 
 .hidden {
   opacity: 0;
   visibility: hidden;
+  transform: translate(-50%, 10%);
 }
