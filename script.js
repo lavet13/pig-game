@@ -5,9 +5,10 @@ let prevImageDiceRoll = document.querySelector('.dice');
 prevImageDiceRoll.classList.add('hidden');
 
 let currentPlayer = 0,
-  currentScore = 0;
+  currentScore = 0,
+  playing = true;
 
-const scores = [0, 0]; // use later
+const scores = [0, 0];
 
 const chooseImage = function () {
   prevImageDiceRoll.src = `dice-${diceRoll}.png`;
@@ -23,22 +24,23 @@ const clearCurrentScore = function () {
 };
 
 const addToPlayerScore = function () {
-  let score = getCurrentScoreElement(),
-    playerScore = getCurrentPlayerScoreElement();
-  playerScore.textContent =
-    Number(playerScore.textContent) + Number(score.textContent);
-  score.textContent = currentScore = 0;
+  scores[currentPlayer] += currentScore;
+  getCurrentPlayerScoreElement().textContent = scores[currentPlayer];
 };
 
 const clearPlayersScore = function () {
-  getCurrentScoreElement().textContent = currentScore = 0;
+  scores[currentPlayer] = 0;
+  clearCurrentScore();
   getCurrentPlayerScoreElement().textContent = 0;
   getCurrentPlayerElement().classList.remove('player--winner');
-  currentPlayer = switchPlayer();
-  getCurrentScoreElement().textContent = 0;
+  currentPlayer = currentPlayer !== 0 ? 0 : 1;
+
+  scores[currentPlayer] = 0;
+  clearCurrentScore();
   getCurrentPlayerScoreElement().textContent = 0;
-  getCurrentPlayerElement().classList.remove('player--winner');
+
   currentPlayer = 1;
+  playing = true;
   deleteActiveClassOfPlayer();
 };
 
@@ -56,12 +58,13 @@ const getCurrentPlayerElement = function () {
 
 const deleteActiveClassOfPlayer = function () {
   getCurrentPlayerElement().classList.remove('player--active');
-  currentPlayer = switchPlayer();
+  currentPlayer = currentPlayer !== 0 ? 0 : 1;
   getCurrentPlayerElement().classList.add('player--active');
 };
 
 const switchPlayer = function () {
-  return currentPlayer !== 0 ? 0 : 1;
+  clearCurrentScore();
+  deleteActiveClassOfPlayer();
 };
 
 const setNewDiceRoll = function () {
@@ -72,8 +75,13 @@ const isNotOne = function (diceRoll) {
   return diceRoll !== 1 ? true : false;
 };
 
-const isWin = function () {
-  return getCurrentPlayerScoreElement().textContent >= 100;
+const isNotWin = function () {
+  playing = scores[currentPlayer] < 100 ? true : false;
+  return playing;
+};
+
+const isPlaying = function () {
+  return playing;
 };
 
 clearPlayersScore();
@@ -81,17 +89,16 @@ clearPlayersScore();
 document.querySelector('.btn--roll').addEventListener('click', function (e) {
   e.preventDefault();
 
-  prevImageDiceRoll.classList.contains('hidden')
-    ? prevImageDiceRoll.classList.remove('hidden')
-    : 0;
+  if (isPlaying()) {
+    prevImageDiceRoll.classList.contains('hidden')
+      ? prevImageDiceRoll.classList.remove('hidden')
+      : 0;
 
-  if (!isWin()) {
     if (isNotOne(diceRoll)) {
       chooseImage();
       addToCurrentScore();
     } else {
-      clearCurrentScore();
-      deleteActiveClassOfPlayer();
+      switchPlayer();
       chooseImage();
     }
 
@@ -102,16 +109,20 @@ document.querySelector('.btn--roll').addEventListener('click', function (e) {
 document.querySelector('.btn--hold').addEventListener('click', function (e) {
   e.preventDefault();
 
-  prevImageDiceRoll.classList.contains('hidden')
-    ? prevImageDiceRoll.classList.remove('hidden')
-    : 0;
+  if (isPlaying()) {
+    prevImageDiceRoll.classList.contains('hidden')
+      ? prevImageDiceRoll.classList.remove('hidden')
+      : 0;
 
-  if (!isWin()) {
     addToPlayerScore();
-    if (!isWin()) {
-      deleteActiveClassOfPlayer();
+    if (isNotWin()) {
+      switchPlayer();
     } else {
       getCurrentPlayerElement().classList.add('player--winner');
+      getCurrentPlayerElement().classList.remove('player--active');
+      prevImageDiceRoll.classList.contains('hidden')
+        ? 0
+        : prevImageDiceRoll.classList.add('hidden');
     }
   }
 });
