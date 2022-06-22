@@ -83,6 +83,7 @@ main {
   letter-spacing: 1px;
   word-spacing: 2px;
 
+  transition: .2s all;
 }
 
 .score {
@@ -98,7 +99,7 @@ main {
 
 .player--active .name {
   font-size: 4rem;
-  font-weight: 700;
+  transform: scale(1.05);
   color: #fff;
 }
 
@@ -110,6 +111,7 @@ main {
 
 .player--active .current {
   opacity: 1;
+  transform: scale(1.05);
 }
 
 .current {
@@ -121,7 +123,8 @@ main {
   width: 65%;
   padding: 2rem;
   text-align: center;
-  transition: all 0.75s;
+
+  transition: all 0.5s;
 }
 
 .current-label {

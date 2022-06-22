@@ -1,14 +1,18 @@
 'use strict';
 
-let diceRoll = Math.trunc(Math.random() * 6) + 1;
+let diceRoll = Math.trunc(Math.random() * 6) + 1; // from 1 to 6, plus 1 is the way to include number 6
 let prevImageDiceRoll = document.querySelector('.dice');
 prevImageDiceRoll.classList.add('hidden');
 
-let currentPlayer = 0,
-  currentScore = 0,
-  playing = true;
+let scores, currentPlayer, currentScore, playing;
 
-const scores = [0, 0];
+// FIXME include init instead of clearPlayersScore
+const init = function () {
+  scores = [0, 0];
+  currentPlayer = 0;
+  currentScore = 0;
+  playing = true;
+};
 
 const chooseImage = function () {
   prevImageDiceRoll.src = `dice-${diceRoll}.png`;
@@ -38,6 +42,7 @@ const clearPlayersScore = function () {
   scores[currentPlayer] = 0;
   clearCurrentScore();
   getCurrentPlayerScoreElement().textContent = 0;
+  // why we didn't add class winner to other player? cause the winner only one? x)
 
   currentPlayer = 1;
   playing = true;
@@ -95,14 +100,15 @@ document.querySelector('.btn--roll').addEventListener('click', function (e) {
       : 0;
 
     if (isNotOne(diceRoll)) {
-      chooseImage();
       addToCurrentScore();
     } else {
       switchPlayer();
-      chooseImage();
     }
 
+    chooseImage();
+
     setNewDiceRoll();
+    // console.log(diceRoll);
   }
 });
 
